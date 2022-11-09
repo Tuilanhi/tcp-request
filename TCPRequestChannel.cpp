@@ -58,7 +58,7 @@ TCPRequestChannel::TCPRequestChannel(const std::string _ip_address, const std::s
         }
         client.sin_family = AF_INET;
         client.sin_port = htons(atoi(_port_no.c_str()));
-        if (inet_pton(AF_INET, _ip_address.c_str(), &client.sin_addr.s_addr) <= 0)
+        if (inet_pton(AF_INET, _ip_address.c_str(), &client.sin_addr.s_addr) < 0)
         {
             perror("Convert failed");
             exit(EXIT_FAILURE);
