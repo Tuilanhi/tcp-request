@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 	buffercapacity = MAX_MESSAGE;
 	int opt;
 	// add r option with a var to collect value
-	string r = "";
+	string port;
 	while ((opt = getopt(argc, argv, "m:r:")) != -1)
 	{
 		switch (opt)
@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
 			buffercapacity = atoi(optarg);
 			break;
 		case 'r':
-			r = optarg;
+			port = optarg;
 			break;
 		}
 	}
@@ -195,10 +195,11 @@ int main(int argc, char *argv[])
 	//		  then enter infinite loop calling TCPReqChan::accept_conn() and 2nd TCP constructor
 	//		  dispatching handle_process_loop thread for new channel
 	// 			-> creating the thread and detaching the thread in pa3 server.cpp
-	TCPRequestChannel *control_channel = new TCPRequestChannel("", r);
+	TCPRequestChannel *control_channel = new TCPRequestChannel("", port);
 	while (true)
 	{
-		TCPRequestChannel *new_chan = new TCPRequestChannel(control_channel->accept_conn());
+		int accept_connection = control_channel->accept_conn();
+		TCPRequestChannel *new_chan = new TCPRequestChannel(accept_connection);
 		thread new_thread(handle_process_loop, new_chan);
 		new_thread.detach();
 	}

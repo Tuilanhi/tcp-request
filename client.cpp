@@ -196,8 +196,8 @@ int main(int argc, char *argv[])
     int m = MAX_MESSAGE; // default capacity of the message buffer
     string f = "";       // name of file to be transferred
     bool is_file = false;
-    string host = "";
-    string port = "";
+    string host;
+    string port;
 
     // read arguments
     int opt;
